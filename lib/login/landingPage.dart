@@ -42,7 +42,9 @@ class _LandingPageState extends State<LandingPage> {
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
                       child: FlatButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          signOut();
+                        },
                         child: Text('Log Out'),
                         color: Colors.pink,
                       ),
