@@ -3,13 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 FirebaseAuth _authOfFirebase = FirebaseAuth.instance;
 GoogleSignIn _googleLoginIn = GoogleSignIn();
 
 Future signMeIn() async {
-  //Scaffold.of(context).showSnackBar(new SnackBar(content: Text('Sign In')));
-
   GoogleSignInAccount googleSignWithAccount = await _googleLoginIn.signIn();
   GoogleSignInAuthentication authenticateForSignIn =
       await googleSignWithAccount.authentication;

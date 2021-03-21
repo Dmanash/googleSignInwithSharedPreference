@@ -3,6 +3,7 @@ import 'package:applicationlogin/styles/styles.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'landingPage.dart';
 
@@ -14,6 +15,25 @@ class Test extends StatefulWidget {
 }
 
 class _TestState extends State<Test> {
+  SharedPreferences userEmail;
+  User mainUser;
+  bool isLoggedIn;
+  sharedPreferencesSetValue() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.setString('email', mainUser.email);
+    // if (prefs.getString(mainUser.email) != null) {
+    //   isLoggedIn = true;
+    // } else {
+    //   isLoggedIn = false;
+    // }
+  }
+
+  sharedPreferencesGetValues() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userEmail = prefs.getString('email');
+  }
+
   @override
   void initState() {
     signOut();
@@ -120,10 +140,17 @@ class _TestState extends State<Test> {
                         ),
                         color: Colors.white.withOpacity(0.15),
                         onPressed: () {
-                          signMeIn().then((mainUser) => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LandingPage())));
+                          if (sharedPreferencesGetValues != null) {
+                            setState(() {
+                              signMeIn().then((mainUser) => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LandingPage())));
+                            });
+                          } else {
+                            return Test();
+                          }
+                          ;
                         },
                         child: Text(
                           'Continue with Google',
